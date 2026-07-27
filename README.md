@@ -1,50 +1,55 @@
-# Welcome to your Expo app 👋
+# 🎓 YÖK Atlas Tercih Rehberi (React Native & Python)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Bu proje, YÖK Atlas verilerini kullanarak üniversite adaylarının istedikleri bölümleri filtreleyebildiği, kendi tercih listelerini oluşturabildiği ve bu listeyi PDF olarak dışa aktarabildiği **offline-first** (çevrimdışı çalışabilen) bir mobil uygulamadır.
 
-## Get started
+Veriler, YÖK Atlas'ın arka plan API'si (DevTools üzerinden sniff edilerek) analiz edildikten sonra **Python** ile çekilmiş ve JSON formatında mobil uygulamaya entegre edilmiştir.
 
-1. Install dependencies
+## ✨ Uygulama Özellikleri
 
-   ```bash
-   npm install
-   ```
+*   🚀 **Yüksek Performans:** Binlerce bölüm ve üniversite verisi, `FlatList` optimizasyonları (initialNumToRender, removeClippedSubviews) sayesinde sıfır kasma ile anlık listelenir.
+*   🔍 **Gelişmiş Filtreleme Modülü:** 
+    *   Anahtar kelime ile anlık arama (Üniversite veya Bölüm adına göre).
+    *   Minimum ve Maksimum "Başarı Sırası" aralığı belirleme.
+    *   Modal tabanlı özel seçim ekranları üzerinden spesifik Üniversite veya Bölüm grubu (Örn: Hukuk, İşletme vb.) seçimi.
+*   ⭐ **Çevrimdışı Tercih Listesi:** Kullanıcılar beğendikleri bölümleri listelerine ekleyebilir. Veriler `AsyncStorage` kullanılarak cihaz hafızasında (lokal) tutulur.
+*   📄 **PDF Olarak Paylaşma:** Oluşturulan tercih listesi, başarı sırasına göre otomatik dizilir ve tek tıkla ÖSYM şablonuna benzer şık bir tablo halinde PDF'e dönüştürülerek (WhatsApp, Mail vb. üzerinden) anında paylaşılabilir.
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## ⚙️ Veri Toplama Süreci (Python Web Scraping)
 
-In the output, you'll find options to open the app in a
+YÖK Atlas, altyapısını React tabanlı bir SPA'ya geçirdiği için geleneksel HTML kazıma (scraping) yöntemleri çalışmamaktadır. Bu projede veri, doğrudan sitenin backend'i ile haberleşen bir Python betiği ile elde edilmiştir:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+1.  **Network Analizi:** Tarayıcı üzerinden YÖK Atlas aramaları dinlenmiş, `tercih-kilavuz/search` endpoint'i ve beklenen payload/header yapıları tespit edilmiştir.
+2.  **Otomasyon (Python `requests`):** Sayfalama (pagination) mantığına uygun olarak bir `while` döngüsü ile sayfalar 100'erlik paketler halinde çekilmiştir.
+3.  **Rate-Limit Koruması:** Sunucuyu yormamak ve engellenmemek için istekler arasına `time.sleep()` eklenmiştir.
+4.  **Veri Temizliği:** Gelen veri sadeleştirilmiş ve Türkçe karakter kodlaması (`UTF-8`) korunarak JSON dosyasına dönüştürülmüştür.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+> ⚠️ **Veri Seti Hakkında Önemli Not (Sadece EA Bölümleri):**  
+> Projede yer alan `scraper/pyy.py` scriptindeki API payload ayarlarında, veri hacmini optimize etmek amacıyla puan türü spesifik olarak **"EA" (Eşit Ağırlık)** olarak filtrelenmiştir. Bu nedenle mevcut JSON dosyasında ve mobil uygulamada yalnızca Eşit Ağırlık bölümleri bulunmaktadır. Eğer SAY, SÖZ veya DİL bölümlerini de çekmek isterseniz, Python dosyasındaki `"puanTuru": "EA"` değerini ilgili puan türü ile değiştirip scripti tekrar çalıştırmanız yeterlidir.
 
-## Get a fresh project
+---
 
-When you're ready, run:
+## 🛠️ Kullanılan Teknolojiler
 
+**Mobil Uygulama (Frontend):**
+*   [React Native](https://reactnative.dev/)
+*   [Expo](https://expo.dev/) (Geliştirme ve APK Derleme - EAS)
+*   `@react-native-async-storage/async-storage` (Lokal Veritabanı)
+*   `expo-print` & `expo-sharing` (HTML'den PDF oluşturma ve paylaşma)
+
+**Veri Çekme (Backend/Data):**
+*   Python 3
+*   `requests` kütüphanesi
+*   JSON veri modellemesi
+
+---
+
+## 🚀 Kurulum ve Çalıştırma
+
+Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları izleyebilirsiniz.
+
+### 1. Depoyu Klonlayın
 ```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+git clone [https://github.com/KULLANICI_ADIN/yok-atlas-mobil-uygulama.git](https://github.com/KULLANICI_ADIN/yok-atlas-mobil-uygulama.git)
+cd yok-atlas-mobil-uygulama
