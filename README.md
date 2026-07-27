@@ -34,7 +34,7 @@ YÖK Atlas, altyapısını React tabanlı bir SPA'ya geçirdiği için gelenekse
 
 **Mobil Uygulama (Frontend):**
 *   [React Native](https://reactnative.dev/)
-*   [Expo](https://expo.dev/) (Geliştirme ve APK Derleme - EAS)
+*   [Expo](https://expo.dev/) (Geliştirme ve APK Derleme)
 *   `@react-native-async-storage/async-storage` (Lokal Veritabanı)
 *   `expo-print` & `expo-sharing` (HTML'den PDF oluşturma ve paylaşma)
 
@@ -47,9 +47,9 @@ YÖK Atlas, altyapısını React tabanlı bir SPA'ya geçirdiği için gelenekse
 
 ## 🚀 Kurulum ve Çalıştırma
 
-Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları izleyebilirsiniz.
+Projeyi kendi bilgisayarınızda çalıştırabilmek ve eksiksiz deneyimleyebilmek için aşağıdaki adımları izleyebilirsiniz. *(Projeye dahil edilmeyen `node_modules` kütüphanelerinin indirilmesi için 2. adım zorunludur).*
 
 ### 1. Depoyu Klonlayın
 ```bash
-git clone [https://github.com/KULLANICI_ADIN/yok-atlas-mobil-uygulama.git](https://github.com/KULLANICI_ADIN/yok-atlas-mobil-uygulama.git)
+git clone [https://github.com/arime10/yok-atlas-mobil-uygulama.git](https://github.com/arime10/yok-atlas-mobil-uygulama.git)
 cd yok-atlas-mobil-uygulama
